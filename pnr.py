@@ -16,7 +16,10 @@ annual_revenue = st.number_input("Revenu annuel (CA)", min_value=0, step=1000, v
 avg_basket = st.number_input("Panier moyen", min_value=0, step=1, value=None)
 number_customers_per_year = st.number_input("Nombre de clients par an - si connu (laisser vide pour calculer)", min_value=0, value=None)
 scenario_adoption_rate = st.selectbox(
-    "Sélectionnez le scénario d'adoption du système : low = 20% s'inscrivent, 40% postent un avis / standard = 50%,50% / high = 80%, 55%",
+    "Sélectionnez le scénario d'adoption du système :\n"
+    " - low = 20% des clients s'inscrivent, 40% postent un avis\n"
+    " - standard = 50% des clients s'inscrivent, 50% postent un avis\n"
+    " - high = 80% des clients s'inscrivent, 55% postent un avis",
     ["low", "standard", "high"], index=None, placeholder=""
 )
 
@@ -190,8 +193,9 @@ st.markdown(
     ### 📊 Statistiques Globales
     - **Nombre annuel de clients** : {number_customers_per_year} clients
     - **Total des perles générées** : {number_pearls_generated} perles
-    - **Total des perles pour avis** : {number_pearls_generated_with_reviews} perles
-    - **Total des perles sans avis** : {number_pearls_generated_without_reviews} perles
+    - **Total des perles générées grâce au système d'avis** : {number_pearls_generated_with_reviews} perles
+    - **Total des perles générées grâce à la carte de fidélité** : {number_pearls_generated_without_reviews} perles
+    - **Montant récolté pour les associations** : {round(value_earned_for_associations, 2)} CHF
     """
 )
 
@@ -203,13 +207,12 @@ st.markdown(
     - **Nombre de parties 2d20 jouées** : {number_standard_game_2d20_played}
     - **Coût annuel des récompenses (2d20)** : {cost_standard_game_2d20_per_year:.2f} CHF
     - **Nombre de coupons utilisés** : {number_coupons_generated:.0f}
-    - **Coût annuel des coupons** : {round(cost_coupons_per_year, 2)} CHF
-    - **Montant pour les associations** : {round(value_earned_for_associations, 2)} CHF
-    - **Coût annuel des dons (déduction fiscale)** : {round(cost_donations_per_year, 2)} CHF
+    - **Coût annuel des coupons** : {int(cost_coupons_per_year)} CHF
+    - **Coût annuel des dons (incl. déduction fiscale)** : {round(cost_donations_per_year, 2)} CHF
     - **Nombre de Lucky Bonus générés** : {number_luckybonus_played:.0f}
     - **Coût annuel des Lucky Bonus** : {cost_luckybonus_per_year:.2f} CHF
-    - **Coût total mensuel (toutes composantes)** : {round(cost_total_per_month, 2)} CHF
-    - **Coût total annuel (toutes composantes)** : {round(cost_total_per_year, 2)} CHF
+    - **Coût TOTAL mensuel** : {round(cost_total_per_month, 2)} CHF
+    - **Coût TOTAL annuel** : {round(cost_total_per_year, 2)} CHF
     """
 )
 
@@ -230,21 +233,21 @@ st.markdown(
     **Scénario Pessimiste (+2% de nouveaux clients par an)**  
     - **ROI** : {roi_pessimistic}%  
     - **Nouveaux clients mensuels** : {round((number_customers_per_year * 1.02 - number_customers_per_year) / 12)}
-    - **Gain/Pertes mensuelles** : {value_roi_pessimistic_per_month:.2f} CHF
-    - **Gain/Pertes annuelles** : {value_roi_pessimistic_per_year:.0f} CHF
+    - **Gain estimés par mois** : {value_roi_pessimistic_per_month:.2f} CHF
+    - **Gain estimés par an** : {value_roi_pessimistic_per_year:.0f} CHF
 
 
     **Scénario Réaliste (+5% de nouveaux clients par an)**  
     - **ROI** : {roi_realistic}%  
     - **Nouveaux clients mensuels** : {round((number_customers_per_year * 1.05 - number_customers_per_year) / 12)}
-    - **Gain/Pertes mensuelles** : {value_roi_realistic_per_month:.2f} CHF
-    - **Gain/Pertes annuelles** : {value_roi_realistic_per_year:.0f} CHF
+    - **Gain estimés par mois** : {value_roi_realistic_per_month:.2f} CHF
+    - **Gain estimés par an** : {value_roi_realistic_per_year:.0f} CHF
 
 
     **Scénario Optimiste (+10% de nouveaux clients par an)**  
     - **ROI** : {roi_optimistic}%  
     - **Nouveaux clients mensuels** : {round((number_customers_per_year * 1.10 - number_customers_per_year) / 12)}
-    - **Gain/Pertes mensuelles** : {value_roi_optimistic_per_month:.2f} CHF
-    - **Gain/Pertes annuelles** : {value_roi_optimistic_per_year:.0f} CHF
+    - **Gain estimés par mois** : {value_roi_optimistic_per_month:.2f} CHF
+    - **Gain estimés par an** : {value_roi_optimistic_per_year:.0f} CHF
     """
 )
