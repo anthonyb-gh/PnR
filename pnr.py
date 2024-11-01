@@ -33,7 +33,7 @@ if filled_values >= 2:
     elif avg_basket is None and annual_revenue is not None and number_customers_per_year is not None:
         avg_basket = annual_revenue / number_customers_per_year
     elif number_customers_per_year is None and annual_revenue is not None and avg_basket is not None:
-        number_customers_per_year = round(annual_revenue / avg_basket)
+        number_customers_per_year = int(annual_revenue / avg_basket)
 else:
     st.warning("⚠️ Veuillez renseigner au moins deux des trois valeurs : CA, panier moyen, ou nombre de clients.")
     st.stop()
@@ -48,9 +48,9 @@ st.markdown(
 )
 
 scenarios = { # taux_loyal / all_client ; taux avis
-    "low": (0.05, 0.40, 0.20, 0.40),
-    "standard": (0.20, 0.50, 0.50, 0.50),
-    "high": (0.50, 0.55, 0.80, 0.55),
+    "low": (0.05, 0.70, 0.20, 0.40),   #0.05, 0.40, 0.20, 0.40
+    "standard": (0.20, 0.70, 0.50, 0.50), #0.20, 0.50, 0.50, 0.50
+    "high": (0.50, 0.70, 0.80, 0.55), #0.50, 0.55, 0.80, 0.55
 }
 
 rate_customers_pnr_loyal, rate_customers_pnr_loyal_leave_review, rate_customers_pnr_standard, rate_customers_pnr_standard_leave_review = scenarios.get(scenario_adoption_rate, (0, 0, 0, 0))
@@ -63,9 +63,9 @@ number_customers_pnr_standard = round(((number_customers_per_year * rate_custome
 number_customers_pnr_standard_leave_review = round(number_customers_pnr_standard * rate_customers_pnr_standard_leave_review)
 number_customers_pnr_standard_not_leave_review = round(number_customers_pnr_standard - number_customers_pnr_standard_leave_review)
 
-number_customers_pnr = round(number_customers_pnr_loyal + number_customers_pnr_standard)
-number_customers_pnr_leave_review = round(number_customers_pnr_loyal_leave_review + number_customers_pnr_standard_leave_review)
-number_customers_pnr_not_leave_review = round(number_customers_pnr_loyal_not_leave_review + number_customers_pnr_standard_not_leave_review)
+number_customers_pnr = int(number_customers_pnr_loyal + number_customers_pnr_standard)
+number_customers_pnr_leave_review = int(number_customers_pnr_loyal_leave_review + number_customers_pnr_standard_leave_review)
+number_customers_pnr_not_leave_review = int(number_customers_pnr_loyal_not_leave_review + number_customers_pnr_standard_not_leave_review)
 
 
 st.markdown(f"""Le scénario sélectionné est : **{scenario_adoption_rate}**""")
@@ -86,8 +86,8 @@ st.divider()
 chances_standard_game_2d20 = 1 / 400
 value_max_reward_standard_game_allowed = 200
 # Adjust Main Reward value (+10% and max 200)
-avg_basket_adjusted = avg_basket * 1.1
-value_reward_standard_game_2d20 = round(min(avg_basket_adjusted, value_max_reward_standard_game_allowed), 2)
+#avg_basket_adjusted = avg_basket * 1.1
+value_reward_standard_game_2d20 = round(min(avg_basket, value_max_reward_standard_game_allowed), 2) #value_reward_standard_game_2d20 = round(min(avg_basket_adjusted, value_max_reward_standard_game_allowed), 2)
 
 
 
@@ -98,8 +98,8 @@ number_pearls_generated = int(number_pearls_generated_with_reviews + number_pear
 
 
 # Perls Exchange Conversion Rate
-rate_customers_exchange_pearls_for_luckybonus = 0.40
-rate_customers_exchange_pearls_for_coupons = 0.50
+rate_customers_exchange_pearls_for_luckybonus = 0.48
+rate_customers_exchange_pearls_for_coupons = 0.42
 rate_customers_exchange_pearls_for_donations = 0.05
 rate_customers_lose_pearls_for_inactivity = 0.05
 
@@ -203,13 +203,13 @@ st.markdown(
     - **Nombre de parties 2d20 jouées** : {number_standard_game_2d20_played}
     - **Coût annuel des récompenses (2d20)** : {cost_standard_game_2d20_per_year:.2f} CHF
     - **Nombre de coupons utilisés** : {number_coupons_generated:.0f}
-    - **Coût annuel des coupons** : {cost_coupons_per_year:.2f} CHF
-    - **Montant pour les associations** : {value_earned_for_associations:.2f} CHF
-    - **Coût annuel des dons (déduction fiscale)** : {cost_donations_per_year:.2f} CHF
+    - **Coût annuel des coupons** : round({cost_coupons_per_year}, 2) CHF
+    - **Montant pour les associations** : round({value_earned_for_associations}, 2) CHF
+    - **Coût annuel des dons (déduction fiscale)** : round({cost_donations_per_year}, 2) CHF
     - **Nombre de Lucky Bonus générés** : {number_luckybonus_played:.0f}
     - **Coût annuel des Lucky Bonus** : {cost_luckybonus_per_year:.2f} CHF
-    - **Coût total mensuel (toutes composantes)** : {cost_total_per_month:.2f} CHF
-    - **Coût total annuel (toutes composantes)** : {cost_total_per_year:.2f} CHF
+    - **Coût total mensuel (toutes composantes)** : round({cost_total_per_month}, 2) CHF
+    - **Coût total annuel (toutes composantes)** : round({cost_total_per_year}, 2) CHF
     """
 )
 
@@ -228,24 +228,24 @@ st.markdown(
     ### 📈 Estimation du ROI avec Gains/Pertes
 
     **Scénario Pessimiste (+2% de nouveaux clients par an)**  
-    - ROI : {roi_pessimistic}%  
-    - Nouveaux clients mensuels : {round((number_customers_per_year * 1.02 - number_customers_per_year) / 12)}
-    - Gain/Pertes mensuelles : {value_roi_pessimistic_per_month:.2f} CHF
-    - Gain/Pertes annuelles : {value_roi_pessimistic_per_year:.2f} CHF
+    - **ROI** : {roi_pessimistic}%  
+    - **Nouveaux clients mensuels** : {round((number_customers_per_year * 1.02 - number_customers_per_year) / 12)}
+    - **Gain/Pertes mensuelles** : {value_roi_pessimistic_per_month:.2f} CHF
+    - **Gain/Pertes annuelles** : {value_roi_pessimistic_per_year:.0f} CHF
 
 
     **Scénario Réaliste (+5% de nouveaux clients par an)**  
-    - ROI : {roi_realistic}%  
-    - Nouveaux clients mensuels : {round((number_customers_per_year * 1.05 - number_customers_per_year) / 12)}
-    - Gain/Pertes mensuelles : {value_roi_realistic_per_month:.2f} CHF
-    - Gain/Pertes annuelles : {value_roi_realistic_per_year:.2f} CHF
+    - **ROI** : {roi_realistic}%  
+    - **Nouveaux clients mensuels** : {round((number_customers_per_year * 1.05 - number_customers_per_year) / 12)}
+    - **Gain/Pertes mensuelles** : {value_roi_realistic_per_month:.2f} CHF
+    - **Gain/Pertes annuelles** : {value_roi_realistic_per_year:.0f} CHF
 
 
     **Scénario Optimiste (+10% de nouveaux clients par an)**  
-    - ROI : {roi_optimistic}%  
-    - Nouveaux clients mensuels : {round((number_customers_per_year * 1.10 - number_customers_per_year) / 12)}
-    - Gain/Pertes mensuelles : {value_roi_optimistic_per_month:.2f} CHF
-    - Gain/Pertes annuelles : {value_roi_optimistic_per_year:.2f} CHF
+    - **ROI** : {roi_optimistic}%  
+    - **Nouveaux clients mensuels** : {round((number_customers_per_year * 1.10 - number_customers_per_year) / 12)}
+    - **Gain/Pertes mensuelles** : {value_roi_optimistic_per_month:.2f} CHF
+    - **Gain/Pertes annuelles** : {value_roi_optimistic_per_year:.0f} CHF
     """
 )
 
