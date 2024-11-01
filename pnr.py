@@ -203,13 +203,13 @@ st.markdown(
     - **Nombre de parties 2d20 jouées** : {number_standard_game_2d20_played}
     - **Coût annuel des récompenses (2d20)** : {cost_standard_game_2d20_per_year:.2f} CHF
     - **Nombre de coupons utilisés** : {number_coupons_generated:.0f}
-    - **Coût annuel des coupons** : round({cost_coupons_per_year}, 2) CHF
-    - **Montant pour les associations** : round({value_earned_for_associations}, 2) CHF
-    - **Coût annuel des dons (déduction fiscale)** : round({cost_donations_per_year}, 2) CHF
+    - **Coût annuel des coupons** : {round(cost_coupons_per_year, 2)} CHF
+    - **Montant pour les associations** : {round(value_earned_for_associations, 2)} CHF
+    - **Coût annuel des dons (déduction fiscale)** : {round(cost_donations_per_year, 2)} CHF
     - **Nombre de Lucky Bonus générés** : {number_luckybonus_played:.0f}
     - **Coût annuel des Lucky Bonus** : {cost_luckybonus_per_year:.2f} CHF
-    - **Coût total mensuel (toutes composantes)** : round({cost_total_per_month}, 2) CHF
-    - **Coût total annuel (toutes composantes)** : round({cost_total_per_year}, 2) CHF
+    - **Coût total mensuel (toutes composantes)** : {round(cost_total_per_month, 2)} CHF
+    - **Coût total annuel (toutes composantes)** : {round(cost_total_per_year, 2)} CHF
     """
 )
 
@@ -248,9 +248,3 @@ st.markdown(
     - **Gain/Pertes annuelles** : {value_roi_optimistic_per_year:.0f} CHF
     """
 )
-
-
-
-
-
-
